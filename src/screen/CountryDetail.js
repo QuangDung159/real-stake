@@ -58,7 +58,7 @@ export default function CountryDetail({country, componentId}) {
                   },
                 },
                 passProps: {
-                  country: country,
+                  continent: country.continent,
                 },
               },
             });
