@@ -1,12 +1,8 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Text, View} from 'react-native';
 import {THEME} from '~/Constants';
 
 export default function CountryDetail({country}) {
-  useEffect(() => {
-    console.log('country :>> ', country);
-  }, [country]);
-
   const renderInfo = (left, right) => {
     return (
       <View
