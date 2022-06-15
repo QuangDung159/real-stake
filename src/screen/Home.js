@@ -1,10 +1,11 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useState} from 'react';
 import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import {Navigation} from 'react-native-navigation';
 import StatusBarContent from '~/Components/StatusBarContent';
+import ThemeButton from '~/Components/ThemeButton';
 import {SCREEN_NAME, SCREEN_TITLE, THEME} from '~/Constants';
 import {fetchListCountry} from '~/services/Country';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Home({componentId}) {
   const [listCountry, setListCountry] = useState([]);
@@ -120,30 +121,7 @@ export default function Home({componentId}) {
         backgroundColor: theme.SUB_BACKGROUND,
       }}>
       <StatusBarContent isDark={isDark} />
-      <TouchableOpacity
-        style={{
-          width: 50,
-          height: 50,
-          borderRadius: 25,
-          backgroundColor: 'pink',
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'absolute',
-          zIndex: 99,
-          bottom: 20,
-          right: 20,
-          ...THEME.SHADOW,
-        }}
-        onPress={() => {
-          setIsDark(!isDark);
-        }}>
-        <Text
-          style={{
-            fontSize: 12,
-          }}>
-          Theme
-        </Text>
-      </TouchableOpacity>
+      <ThemeButton isDark={isDark} setIsDark={setIsDark} />
       <FlatList
         contentContainerStyle={{
           backgroundColor: theme.SUB_BACKGROUND,
