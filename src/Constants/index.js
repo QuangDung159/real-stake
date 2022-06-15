@@ -27,4 +27,14 @@ export const THEME = {
   },
   WIDTH: windowWidth,
   HEIGHT: windowHeight,
+  DARK: {
+    BACKGROUND: '#242526',
+    TEXT: '#e4e6eb',
+    SUB_BACKGROUND: '#18191a',
+  },
+  LIGHT: {
+    BACKGROUND: '#FFFFFF',
+    TEXT: '#2b2b2a',
+    SUB_BACKGROUND: '#ebebe6',
+  },
 };

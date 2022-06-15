@@ -10,6 +10,15 @@ Navigation.registerComponent(
   SCREEN_NAME.CONTINENT_DETAIL,
   () => ContinentDetail,
 );
+
+Navigation.setDefaultOptions({
+  topBar: {
+    visible: false,
+    drawBehind: true,
+    animate: false,
+  },
+});
+
 Navigation.events().registerAppLaunchedListener(() => {
   Navigation.setRoot({
     root: {

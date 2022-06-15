@@ -1,19 +1,37 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import {Navigation} from 'react-native-navigation';
+import StatusBarContent from '~/Components/StatusBarContent';
 import {SCREEN_NAME, SCREEN_TITLE, THEME} from '~/Constants';
 import {fetchListCountry} from '~/services/Country';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Home({componentId}) {
   const [listCountry, setListCountry] = useState([]);
+  const [theme, setTheme] = useState(THEME.DARK);
+  const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
     getListCountry();
+    getTheme();
   }, []);
+
+  useEffect(() => {
+    AsyncStorage.setItem('IS_DARK', JSON.stringify(isDark));
+    if (isDark) {
+      setTheme(THEME.DARK);
+    } else {
+      setTheme(THEME.LIGHT);
+    }
+  }, [isDark]);
+
+  const getTheme = async () => {
+    const localTheme = await AsyncStorage.getItem('IS_DARK');
+    setIsDark(JSON.parse(localTheme));
+  };
 
   const getListCountry = async () => {
     const res = await fetchListCountry();
-    console.log('res :>> ', res);
     if (res.success) {
       setListCountry(res.data.countries);
     }
@@ -54,7 +72,7 @@ export default function Home({componentId}) {
               height: 50,
               alignItems: 'center',
               borderRadius: 5,
-              backgroundColor: '#ffffff',
+              backgroundColor: theme.BACKGROUND,
               flex: 1,
             }}>
             <View>
@@ -77,6 +95,7 @@ export default function Home({componentId}) {
                   fontSize: 16,
                   fontWeight: 'bold',
                   paddingRight: 10,
+                  color: theme.TEXT,
                 }}
                 numberOfLines={1}>
                 {item.name}
@@ -84,6 +103,7 @@ export default function Home({componentId}) {
               <Text
                 style={{
                   fontSize: 16,
+                  color: theme.TEXT,
                 }}>
                 {item.capital}
               </Text>
@@ -95,25 +115,56 @@ export default function Home({componentId}) {
   };
 
   return (
-    <FlatList
-      contentContainerStyle={{
-        backgroundColor: '#f7fcf9',
-      }}
-      showsVerticalScrollIndicator={false}
-      data={listCountry}
-      keyExtractor={item => item.code}
-      renderItem={({item}) => <>{renderCountryItem(item)}</>}
-      ListHeaderComponent={() => (
-        <View>
-          <Text
-            style={{
-              fontSize: 16,
-              fontWeight: 'bold',
-            }}>
-            List of countries
-          </Text>
-        </View>
-      )}
-    />
+    <View
+      style={{
+        backgroundColor: theme.SUB_BACKGROUND,
+      }}>
+      <StatusBarContent isDark={isDark} />
+      <TouchableOpacity
+        style={{
+          width: 50,
+          height: 50,
+          borderRadius: 25,
+          backgroundColor: 'pink',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'absolute',
+          zIndex: 99,
+          bottom: 20,
+          right: 20,
+          ...THEME.SHADOW,
+        }}
+        onPress={() => {
+          setIsDark(!isDark);
+        }}>
+        <Text
+          style={{
+            fontSize: 12,
+          }}>
+          Theme
+        </Text>
+      </TouchableOpacity>
+      <FlatList
+        contentContainerStyle={{
+          backgroundColor: theme.SUB_BACKGROUND,
+        }}
+        showsVerticalScrollIndicator={false}
+        data={listCountry}
+        keyExtractor={item => item.code}
+        renderItem={({item}) => <>{renderCountryItem(item)}</>}
+        ListHeaderComponent={() => (
+          <View>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: 'bold',
+                color: theme.TEXT,
+              }}>
+              List of countries
+            </Text>
+          </View>
+        )}
+      />
+    </View>
   );
 }
