@@ -1,6 +1,7 @@
 import React from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+import {Image, Text, TouchableOpacity} from 'react-native';
 import {THEME} from '~/Constants';
+import Images from '~/Images';
 
 export default function ThemeButton({isDark, setIsDark}) {
   return (
@@ -10,8 +11,8 @@ export default function ThemeButton({isDark, setIsDark}) {
         height: 50,
         borderRadius: 25,
         backgroundColor: isDark
-          ? THEME.DARK.SUB_BACKGROUND
-          : THEME.LIGHT.SUB_BACKGROUND,
+          ? THEME.DARK.BACKGROUND
+          : THEME.LIGHT.BACKGROUND,
         alignItems: 'center',
         justifyContent: 'center',
         position: 'absolute',
@@ -23,14 +24,14 @@ export default function ThemeButton({isDark, setIsDark}) {
       onPress={() => {
         setIsDark(!isDark);
       }}>
-      <Text
+      <Image
+        source={isDark ? Images.sun : Images.moon}
         style={{
-          fontSize: 12,
-          color: isDark ? THEME.DARK.TEXT : THEME.LIGHT.TEXT,
-          fontWeight: 'bold',
-        }}>
-        {isDark ? 'Light' : 'Dark'}
-      </Text>
+          tintColor: isDark ? THEME.DARK.TEXT : THEME.LIGHT.TEXT,
+          width: 40,
+          height: 40,
+        }}
+      />
     </TouchableOpacity>
   );
 }

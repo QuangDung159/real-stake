@@ -42,7 +42,6 @@ export default function Home({componentId}) {
     return (
       <TouchableOpacity
         onPress={() => {
-          console.log('first');
           Navigation.push(componentId, {
             component: {
               name: SCREEN_NAME.COUNTRY_DETAIL,
