@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
+  Alert,
   FlatList,
   Linking,
   SafeAreaView,
@@ -36,11 +37,10 @@ export default function Home({componentId}) {
   useEffect(() => {
     Linking.getInitialURL()
       .then(url => {
-        if (url) {
-          console.log('Initial url is: ' + url);
-        }
+        handleDeepLink({url});
       })
-      .catch(err => console.error('An error occurred', err));
+      .catch(err => Alert.alert(err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
