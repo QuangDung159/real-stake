@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, TouchableOpacity} from 'react-native';
 import {Navigation} from 'react-native-navigation';
-import {SCREEN_NAME, SCREEN_TITLE, THEME} from '~/Constants';
+import {THEME} from '~/Constants';
 import Images from '~/Images';
 
 export default function HomeButton({isDark, componentId}) {
@@ -23,18 +23,7 @@ export default function HomeButton({isDark, componentId}) {
         ...THEME.SHADOW,
       }}
       onPress={() => {
-        Navigation.push(componentId, {
-          component: {
-            name: SCREEN_NAME.HOME,
-            options: {
-              topBar: {
-                title: {
-                  text: SCREEN_TITLE.CONTINENT_DETAIL,
-                },
-              },
-            },
-          },
-        });
+        Navigation.popToRoot(componentId);
       }}>
       <Image
         source={Images.home}

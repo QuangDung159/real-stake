@@ -59,6 +59,31 @@ export const fetchListCountry = async () => {
   );
 };
 
+export const fetchCountryByCode = async code => {
+  return await request(
+    'post',
+    `{
+        country (code: "${code.toUpperCase()}") {
+          code
+          name
+          native
+          capital
+          emoji
+          currency
+          languages {
+              code
+              name
+          }
+          phone
+          continent {
+            name
+            code
+          }
+        }
+      }`,
+  );
+};
+
 export const fetchContinentByCode = async (continentCode = 'EU') => {
   return await request(
     'post',

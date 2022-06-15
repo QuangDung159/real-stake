@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   FlatList,
+  Linking,
   SafeAreaView,
   Text,
   TouchableOpacity,
@@ -31,6 +32,52 @@ export default function Home({componentId}) {
       setTheme(THEME.LIGHT);
     }
   }, [isDark]);
+
+  useEffect(() => {
+    Linking.getInitialURL()
+      .then(url => {
+        if (url) {
+          console.log('Initial url is: ' + url);
+        }
+      })
+      .catch(err => console.error('An error occurred', err));
+  }, []);
+
+  useEffect(() => {
+    Linking.addEventListener('url', handleDeepLink);
+
+    return function cleanup() {
+      Linking.addEventListener('url', handleDeepLink);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleDeepLink = useCallback(
+    ({url}) => {
+      if (!url) {
+        return;
+      }
+
+      const code = url.substring(url.length - 2);
+
+      Navigation.push(componentId, {
+        component: {
+          name: SCREEN_NAME.COUNTRY_DETAIL,
+          options: {
+            topBar: {
+              title: {
+                text: SCREEN_TITLE.COUNTRY_DETAIL,
+              },
+            },
+          },
+          passProps: {
+            countryCode: code,
+          },
+        },
+      });
+    },
+    [componentId],
+  );
 
   const getTheme = async () => {
     const localTheme = await AsyncStorage.getItem('IS_DARK');
