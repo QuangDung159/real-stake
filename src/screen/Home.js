@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Button, FlatList, Text, View} from 'react-native';
-import {Navigation} from 'react-native-navigation';
-import {SCREEN_NAME, SCREEN_TITLE} from '~/Constants';
+import {FlatList, Text, View} from 'react-native';
+import {THEME} from '~/Constants';
 import {fetchListCountry} from '~/services/Country';
 
 export default function Home({componentId}) {
@@ -20,31 +19,94 @@ export default function Home({componentId}) {
   };
 
   return (
-    <View>
-      <FlatList
-        data={listCountry}
-        keyExtractor={item => item.name}
-        renderItem={({item}) => <Text>{item.name}</Text>}
-      />
-      <Text>Home</Text>
-      <Button
-        title="press"
-        onPress={() => {
-          console.log('first');
-          Navigation.push(componentId, {
-            component: {
-              name: SCREEN_NAME.COUNTRY_DETAIL,
-              options: {
-                topBar: {
-                  title: {
-                    text: SCREEN_TITLE.COUNTRY_DETAIL,
+    <FlatList
+      contentContainerStyle={{
+        backgroundColor: '#f7fcf9',
+      }}
+      showsVerticalScrollIndicator={false}
+      data={listCountry}
+      keyExtractor={item => item.code}
+      renderItem={({item}) => (
+        <View
+          style={{
+            marginBottom: 20,
+            marginHorizontal: 20,
+            justifyContent: 'center',
+            flex: 1,
+            ...THEME.SHADOW,
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              height: 50,
+              alignItems: 'center',
+              borderRadius: 5,
+              backgroundColor: '#ffffff',
+              flex: 1,
+            }}>
+            <View>
+              <Text
+                style={{
+                  fontSize: 45,
+                  marginHorizontal: 10,
+                  flex: 2,
+                }}>
+                {item.emoji}
+              </Text>
+            </View>
+            <View
+              style={{
+                justifyContent: 'space-between',
+                flex: 8,
+              }}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: 'bold',
+                  paddingRight: 10,
+                }}
+                numberOfLines={1}>
+                {item.name}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 16,
+                }}>
+                {item.capital}
+              </Text>
+            </View>
+          </View>
+        </View>
+      )}
+      ListHeaderComponent={() => (
+        <View>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: 'bold',
+            }}>
+            List of countries
+          </Text>
+          {/* <Button
+            title="press"
+            onPress={() => {
+              console.log('first');
+              Navigation.push(componentId, {
+                component: {
+                  name: SCREEN_NAME.COUNTRY_DETAIL,
+                  options: {
+                    topBar: {
+                      title: {
+                        text: SCREEN_TITLE.COUNTRY_DETAIL,
+                      },
+                    },
                   },
                 },
-              },
-            },
-          });
-        }}
-      />
-    </View>
+              });
+            }}
+          /> */}
+        </View>
+      )}
+    />
   );
 }

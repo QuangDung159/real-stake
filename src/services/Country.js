@@ -39,14 +39,15 @@ export const fetchListCountry = async () => {
     'post',
     `{
         countries {
+          code
           name
           native
           capital
           emoji
           currency
           languages {
-            code
-            name
+              code
+              name
           }
         }
       }`,
