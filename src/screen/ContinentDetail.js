@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import {Navigation} from 'react-native-navigation';
+import HomeButton from '~/Components/HomeButton';
 import InfoInlineText from '~/Components/InfoInlineText';
 import StatusBarContent from '~/Components/StatusBarContent';
 import ThemeButton from '~/Components/ThemeButton';
@@ -132,6 +133,7 @@ export default function ContinentDetail({continent, componentId}) {
       }}>
       <StatusBarContent isDark={isDark} />
       <ThemeButton isDark={isDark} setIsDark={setIsDark} />
+      <HomeButton isDark={isDark} componentId={componentId} />
       <View>
         <Text
           style={{

@@ -4,7 +4,7 @@ import {Navigation} from 'react-native-navigation';
 import {SCREEN_NAME, SCREEN_TITLE, THEME} from '~/Constants';
 import Images from '~/Images';
 
-export default function HomeButton({isDark, setIsDark, componentId}) {
+export default function HomeButton({isDark, componentId}) {
   return (
     <TouchableOpacity
       style={{

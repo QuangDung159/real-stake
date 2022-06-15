@@ -64,11 +64,7 @@ export default function CountryDetail({country, componentId}) {
       }}>
       <StatusBarContent isDark={isDark} />
       <ThemeButton isDark={isDark} setIsDark={setIsDark} />
-      <HomeButton
-        isDark={isDark}
-        setIsDark={setIsDark}
-        componentId={componentId}
-      />
+      <HomeButton isDark={isDark} componentId={componentId} />
       <Text
         style={{
           fontSize: 100,
