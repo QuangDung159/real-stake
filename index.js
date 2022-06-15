@@ -1,7 +1,10 @@
 import {Navigation} from 'react-native-navigation';
-import {HomeScreen} from '~/HomeScreen';
+import {SCREEN_NAME} from '~/Constants';
+import CountryDetail from '~/screen/CountryDetail';
+import Home from '~/screen/Home';
 
-Navigation.registerComponent('HomeScreen', () => HomeScreen);
+Navigation.registerComponent(SCREEN_NAME.HOME, () => Home);
+Navigation.registerComponent(SCREEN_NAME.COUNTRY_DETAIL, () => CountryDetail);
 Navigation.events().registerAppLaunchedListener(() => {
   Navigation.setRoot({
     root: {
@@ -9,7 +12,7 @@ Navigation.events().registerAppLaunchedListener(() => {
         children: [
           {
             component: {
-              name: 'HomeScreen',
+              name: SCREEN_NAME.HOME,
             },
           },
         ],
