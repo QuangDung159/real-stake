@@ -26,6 +26,12 @@ export default function Home({componentId}) {
   }, []);
 
   useEffect(() => {
+    Navigation.events().registerScreenPoppedListener(data => {
+      getTheme();
+    });
+  }, []);
+
+  useEffect(() => {
     AsyncStorage.setItem('IS_DARK', JSON.stringify(isDark));
     if (isDark) {
       setTheme(THEME.DARK);
@@ -95,8 +101,6 @@ export default function Home({componentId}) {
       }
 
       const code = url.substring(url.length - 2);
-
-      console.log('code :>> ', code);
 
       if (url.includes('country')) {
         navigateToCountry(null, code);

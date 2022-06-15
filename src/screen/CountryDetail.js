@@ -19,6 +19,7 @@ export default function CountryDetail({country, componentId, countryCode}) {
   }, [getCountryDetail]);
 
   useEffect(() => {
+    AsyncStorage.setItem('IS_DARK', JSON.stringify(isDark));
     if (isDark) {
       setTheme(THEME.DARK);
     } else {
