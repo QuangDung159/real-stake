@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Text, TouchableOpacity} from 'react-native';
+import {Image, TouchableOpacity} from 'react-native';
 import {THEME} from '~/Constants';
 import Images from '~/Images';
 

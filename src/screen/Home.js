@@ -1,6 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useState} from 'react';
-import {FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Navigation} from 'react-native-navigation';
 import StatusBarContent from '~/Components/StatusBarContent';
 import ThemeButton from '~/Components/ThemeButton';
@@ -115,16 +121,13 @@ export default function Home({componentId}) {
   };
 
   return (
-    <View
+    <SafeAreaView
       style={{
         backgroundColor: theme.SUB_BACKGROUND,
       }}>
       <StatusBarContent isDark={isDark} />
       <ThemeButton isDark={isDark} setIsDark={setIsDark} />
       <FlatList
-        contentContainerStyle={{
-          backgroundColor: theme.SUB_BACKGROUND,
-        }}
         showsVerticalScrollIndicator={false}
         data={listCountry}
         keyExtractor={item => item.code}
@@ -142,6 +145,6 @@ export default function Home({componentId}) {
           </View>
         )}
       />
-    </View>
+    </SafeAreaView>
   );
 }

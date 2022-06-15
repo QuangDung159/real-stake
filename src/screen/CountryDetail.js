@@ -1,9 +1,33 @@
-import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {Navigation} from 'react-native-navigation';
+import StatusBarContent from '~/Components/StatusBarContent';
+import ThemeButton from '~/Components/ThemeButton';
 import {SCREEN_NAME, SCREEN_TITLE, THEME} from '~/Constants';
 
 export default function CountryDetail({country, componentId}) {
+  const [theme, setTheme] = useState(THEME.DARK);
+  const [isDark, setIsDark] = useState(true);
+
+  useEffect(() => {
+    getTheme();
+  }, []);
+
+  useEffect(() => {
+    AsyncStorage.setItem('IS_DARK', JSON.stringify(isDark));
+    if (isDark) {
+      setTheme(THEME.DARK);
+    } else {
+      setTheme(THEME.LIGHT);
+    }
+  }, [isDark]);
+
+  const getTheme = async () => {
+    const localTheme = await AsyncStorage.getItem('IS_DARK');
+    setIsDark(JSON.parse(localTheme));
+  };
+
   const renderInfo = (left, right) => {
     return (
       <View
@@ -13,21 +37,36 @@ export default function CountryDetail({country, componentId}) {
           marginHorizontal: 20,
           marginBottom: 10,
         }}>
-        <Text>{left}</Text>
-        <Text>{right}</Text>
+        <Text
+          style={{
+            color: theme.TEXT,
+          }}>
+          {left}
+        </Text>
+        <Text
+          style={{
+            color: theme.TEXT,
+          }}>
+          {right}
+        </Text>
       </View>
     );
   };
 
   return (
-    <View
+    <SafeAreaView
       style={{
         alignItems: 'center',
         width: THEME.WIDTH,
+        flex: 1,
+        backgroundColor: theme.BACKGROUND,
       }}>
+      <StatusBarContent isDark={isDark} />
+      <ThemeButton isDark={isDark} setIsDark={setIsDark} />
       <Text
         style={{
           fontSize: 100,
+          color: theme.TEXT,
         }}>
         {country.emoji}
       </Text>
@@ -35,6 +74,7 @@ export default function CountryDetail({country, componentId}) {
         style={{
           fontSize: 20,
           fontWeight: 'bold',
+          color: theme.TEXT,
         }}>
         {country.name}
       </Text>
@@ -66,6 +106,6 @@ export default function CountryDetail({country, componentId}) {
           {renderInfo('continent', `+${country.continent.name}`)}
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
