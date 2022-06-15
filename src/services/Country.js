@@ -88,7 +88,7 @@ export const fetchContinentByCode = async (continentCode = 'EU') => {
   return await request(
     'post',
     `{
-      continent (code: "${continentCode}") {
+      continent (code: "${continentCode.toUpperCase()}") {
         code
         name
         countries {

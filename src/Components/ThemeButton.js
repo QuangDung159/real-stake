@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import {Image, TouchableOpacity} from 'react-native';
 import {THEME} from '~/Constants';
@@ -22,6 +23,7 @@ export default function ThemeButton({isDark, setIsDark}) {
         ...THEME.SHADOW,
       }}
       onPress={() => {
+        AsyncStorage.setItem('IS_DARK', JSON.stringify(isDark));
         setIsDark(!isDark);
       }}>
       <Image

@@ -5,7 +5,7 @@ import {Navigation} from 'react-native-navigation';
 import HomeButton from '~/Components/HomeButton';
 import StatusBarContent from '~/Components/StatusBarContent';
 import ThemeButton from '~/Components/ThemeButton';
-import {SCREEN_NAME, SCREEN_TITLE, THEME} from '~/Constants';
+import {SCREEN_NAME, THEME} from '~/Constants';
 import {fetchCountryByCode} from '~/services/Country';
 
 export default function CountryDetail({country, componentId, countryCode}) {
@@ -19,7 +19,6 @@ export default function CountryDetail({country, componentId, countryCode}) {
   }, [getCountryDetail]);
 
   useEffect(() => {
-    AsyncStorage.setItem('IS_DARK', JSON.stringify(isDark));
     if (isDark) {
       setTheme(THEME.DARK);
     } else {
@@ -106,15 +105,8 @@ export default function CountryDetail({country, componentId, countryCode}) {
                 Navigation.push(componentId, {
                   component: {
                     name: SCREEN_NAME.CONTINENT_DETAIL,
-                    options: {
-                      topBar: {
-                        title: {
-                          text: SCREEN_TITLE.CONTINENT_DETAIL,
-                        },
-                      },
-                    },
                     passProps: {
-                      continent: countryDetail.continent,
+                      continentCode: countryDetail.continent.code,
                     },
                   },
                 });

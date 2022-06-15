@@ -52,14 +52,8 @@ export default function Home({componentId}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleDeepLink = useCallback(
-    ({url}) => {
-      if (!url) {
-        return;
-      }
-
-      const code = url.substring(url.length - 2);
-
+  const navigateToCountry = useCallback(
+    (country, countryCode) => {
       Navigation.push(componentId, {
         component: {
           name: SCREEN_NAME.COUNTRY_DETAIL,
@@ -71,12 +65,46 @@ export default function Home({componentId}) {
             },
           },
           passProps: {
-            countryCode: code,
+            countryCode,
+            country,
           },
         },
       });
     },
     [componentId],
+  );
+
+  const navigateToContinent = useCallback(
+    continentCode => {
+      Navigation.push(componentId, {
+        component: {
+          name: SCREEN_NAME.CONTINENT_DETAIL,
+          passProps: {
+            continentCode,
+          },
+        },
+      });
+    },
+    [componentId],
+  );
+
+  const handleDeepLink = useCallback(
+    ({url}) => {
+      if (!url) {
+        return;
+      }
+
+      const code = url.substring(url.length - 2);
+
+      console.log('code :>> ', code);
+
+      if (url.includes('country')) {
+        navigateToCountry(null, code);
+      } else {
+        navigateToContinent(code);
+      }
+    },
+    [navigateToContinent, navigateToCountry],
   );
 
   const getTheme = async () => {

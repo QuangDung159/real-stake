@@ -15,14 +15,15 @@ import ThemeButton from '~/Components/ThemeButton';
 import {SCREEN_NAME, SCREEN_TITLE, THEME} from '~/Constants';
 import {fetchContinentByCode} from '~/services/Country';
 
-export default function ContinentDetail({continent, componentId}) {
+export default function ContinentDetail({continentCode, componentId}) {
   const [listCountry, setListCountry] = useState([]);
   const [theme, setTheme] = useState(THEME.DARK);
   const [isDark, setIsDark] = useState(true);
+  const [continentDetail, setContinentDetail] = useState();
 
   useEffect(() => {
-    getContinentDetail(continent.code);
-  }, [continent.code]);
+    getContinentDetail(continentCode);
+  }, [continentCode]);
 
   useEffect(() => {
     getTheme();
@@ -43,9 +44,12 @@ export default function ContinentDetail({continent, componentId}) {
   };
 
   const getContinentDetail = async code => {
+    console.log('code :>> ', code);
     const res = await fetchContinentByCode(code);
+    console.log('res :>> ', res);
     if (res.success) {
       setListCountry(res.data.continent.countries);
+      setContinentDetail(res.data.continent);
     }
   };
 
@@ -134,45 +138,53 @@ export default function ContinentDetail({continent, componentId}) {
       <StatusBarContent isDark={isDark} />
       <ThemeButton isDark={isDark} setIsDark={setIsDark} />
       <HomeButton isDark={isDark} componentId={componentId} />
-      <View>
-        <Text
-          style={{
-            fontSize: 20,
-            fontWeight: 'bold',
-            textAlign: 'center',
-            marginVertical: 20,
-            color: theme.TEXT,
-          }}>
-          {continent.name}
-        </Text>
-      </View>
-      <InfoInlineText left={'Code'} right={continent.code} theme={theme} />
-      <FlatList
-        contentContainerStyle={{
-          paddingBottom: 80,
-        }}
-        showsVerticalScrollIndicator={false}
-        data={listCountry}
-        keyExtractor={item => item.code}
-        renderItem={({item}) => <>{renderCountryItem(item)}</>}
-        ListHeaderComponent={() => (
-          <View
-            style={{
-              marginHorizontal: 20,
-              marginBottom: 20,
-            }}>
+      {continentDetail && (
+        <>
+          <View>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 20,
                 fontWeight: 'bold',
-                paddingTop: 10,
+                textAlign: 'center',
+                marginVertical: 20,
                 color: theme.TEXT,
               }}>
-              List of countries
+              {continentDetail.name}
             </Text>
           </View>
-        )}
-      />
+          <InfoInlineText
+            left={'Code'}
+            right={continentDetail.code}
+            theme={theme}
+          />
+          <FlatList
+            contentContainerStyle={{
+              paddingBottom: 80,
+            }}
+            showsVerticalScrollIndicator={false}
+            data={listCountry}
+            keyExtractor={item => item.code}
+            renderItem={({item}) => <>{renderCountryItem(item)}</>}
+            ListHeaderComponent={() => (
+              <View
+                style={{
+                  marginHorizontal: 20,
+                  marginBottom: 20,
+                }}>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                    paddingTop: 10,
+                    color: theme.TEXT,
+                  }}>
+                  List of countries
+                </Text>
+              </View>
+            )}
+          />
+        </>
+      )}
     </SafeAreaView>
   );
 }
