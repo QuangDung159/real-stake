@@ -44,9 +44,7 @@ export default function ContinentDetail({continentCode, componentId}) {
   };
 
   const getContinentDetail = async code => {
-    console.log('code :>> ', code);
     const res = await fetchContinentByCode(code);
-    console.log('res :>> ', res);
     if (res.success) {
       setListCountry(res.data.continent.countries);
       setContinentDetail(res.data.continent);

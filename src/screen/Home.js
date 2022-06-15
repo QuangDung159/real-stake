@@ -127,21 +127,7 @@ export default function Home({componentId}) {
     return (
       <TouchableOpacity
         onPress={() => {
-          Navigation.push(componentId, {
-            component: {
-              name: SCREEN_NAME.COUNTRY_DETAIL,
-              options: {
-                topBar: {
-                  title: {
-                    text: SCREEN_TITLE.COUNTRY_DETAIL,
-                  },
-                },
-              },
-              passProps: {
-                country: item,
-              },
-            },
-          });
+          navigateToCountry(item);
         }}>
         <View
           style={{
