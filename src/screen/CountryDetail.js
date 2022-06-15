@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {Navigation} from 'react-native-navigation';
+import HomeButton from '~/Components/HomeButton';
 import StatusBarContent from '~/Components/StatusBarContent';
 import ThemeButton from '~/Components/ThemeButton';
 import {SCREEN_NAME, SCREEN_TITLE, THEME} from '~/Constants';
@@ -63,6 +64,11 @@ export default function CountryDetail({country, componentId}) {
       }}>
       <StatusBarContent isDark={isDark} />
       <ThemeButton isDark={isDark} setIsDark={setIsDark} />
+      <HomeButton
+        isDark={isDark}
+        setIsDark={setIsDark}
+        componentId={componentId}
+      />
       <Text
         style={{
           fontSize: 100,
@@ -86,7 +92,6 @@ export default function CountryDetail({country, componentId}) {
         {renderInfo('callingCode', `+${country.phone}`)}
         <TouchableOpacity
           onPress={() => {
-            console.log('first');
             Navigation.push(componentId, {
               component: {
                 name: SCREEN_NAME.CONTINENT_DETAIL,

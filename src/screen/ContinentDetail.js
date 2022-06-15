@@ -1,37 +1,51 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useState} from 'react';
-import {FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Navigation} from 'react-native-navigation';
+import InfoInlineText from '~/Components/InfoInlineText';
+import StatusBarContent from '~/Components/StatusBarContent';
+import ThemeButton from '~/Components/ThemeButton';
 import {SCREEN_NAME, SCREEN_TITLE, THEME} from '~/Constants';
 import {fetchContinentByCode} from '~/services/Country';
 
 export default function ContinentDetail({continent, componentId}) {
   const [listCountry, setListCountry] = useState([]);
+  const [theme, setTheme] = useState(THEME.DARK);
+  const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
     getContinentDetail(continent.code);
   }, [continent.code]);
 
+  useEffect(() => {
+    getTheme();
+  }, []);
+
+  useEffect(() => {
+    AsyncStorage.setItem('IS_DARK', JSON.stringify(isDark));
+    if (isDark) {
+      setTheme(THEME.DARK);
+    } else {
+      setTheme(THEME.LIGHT);
+    }
+  }, [isDark]);
+
+  const getTheme = async () => {
+    const localTheme = await AsyncStorage.getItem('IS_DARK');
+    setIsDark(JSON.parse(localTheme));
+  };
+
   const getContinentDetail = async code => {
     const res = await fetchContinentByCode(code);
-    console.log('getContinentDetail :>> ', res);
     if (res.success) {
       setListCountry(res.data.continent.countries);
     }
-  };
-
-  const renderInfo = (left, right) => {
-    return (
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginHorizontal: 20,
-          marginBottom: 10,
-        }}>
-        <Text>{left}</Text>
-        <Text>{right}</Text>
-      </View>
-    );
   };
 
   const renderCountryItem = item => {
@@ -68,7 +82,7 @@ export default function ContinentDetail({continent, componentId}) {
               height: 50,
               alignItems: 'center',
               borderRadius: 5,
-              backgroundColor: '#ffffff',
+              backgroundColor: theme.BACKGROUND,
               flex: 1,
             }}>
             <View>
@@ -91,6 +105,7 @@ export default function ContinentDetail({continent, componentId}) {
                   fontSize: 16,
                   fontWeight: 'bold',
                   paddingRight: 10,
+                  color: theme.TEXT,
                 }}
                 numberOfLines={1}>
                 {item.name}
@@ -98,6 +113,7 @@ export default function ContinentDetail({continent, componentId}) {
               <Text
                 style={{
                   fontSize: 16,
+                  color: theme.TEXT,
                 }}>
                 {item.capital}
               </Text>
@@ -109,10 +125,13 @@ export default function ContinentDetail({continent, componentId}) {
   };
 
   return (
-    <View
+    <SafeAreaView
       style={{
-        backgroundColor: '#f7fcf9',
+        backgroundColor: theme.SUB_BACKGROUND,
+        flex: 1,
       }}>
+      <StatusBarContent isDark={isDark} />
+      <ThemeButton isDark={isDark} setIsDark={setIsDark} />
       <View>
         <Text
           style={{
@@ -120,11 +139,12 @@ export default function ContinentDetail({continent, componentId}) {
             fontWeight: 'bold',
             textAlign: 'center',
             marginVertical: 20,
+            color: theme.TEXT,
           }}>
           {continent.name}
         </Text>
       </View>
-      {renderInfo('code', continent.code)}
+      <InfoInlineText left={'Code'} right={continent.code} theme={theme} />
       <FlatList
         contentContainerStyle={{
           paddingBottom: 80,
@@ -144,12 +164,13 @@ export default function ContinentDetail({continent, componentId}) {
                 fontSize: 16,
                 fontWeight: 'bold',
                 paddingTop: 10,
+                color: theme.TEXT,
               }}>
               List of countries
             </Text>
           </View>
         )}
       />
-    </View>
+    </SafeAreaView>
   );
 }

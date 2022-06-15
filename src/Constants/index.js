@@ -23,7 +23,7 @@ export const THEME = {
       height: 3,
     },
     shadowRadius: 5,
-    shadowOpacity: 0.5,
+    shadowOpacity: 0.3,
   },
   WIDTH: windowWidth,
   HEIGHT: windowHeight,
