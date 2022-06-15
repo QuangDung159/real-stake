@@ -49,6 +49,11 @@ export const fetchListCountry = async () => {
               code
               name
           }
+          phone
+          continent {
+            name
+            code
+          }
         }
       }`,
   );

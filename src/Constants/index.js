@@ -1,3 +1,8 @@
+import {Dimensions} from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 export const SCREEN_NAME = {
   HOME: 'HOME',
   COUNTRY_DETAIL: 'COUNTRY_DETAIL',
@@ -18,4 +23,6 @@ export const THEME = {
     shadowRadius: 5,
     shadowOpacity: 0.1,
   },
+  WIDTH: windowWidth,
+  HEIGHT: windowHeight,
 };

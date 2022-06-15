@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, Text, View} from 'react-native';
-import {THEME} from '~/Constants';
+import {FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {Navigation} from 'react-native-navigation';
+import {SCREEN_NAME, SCREEN_TITLE, THEME} from '~/Constants';
 import {fetchListCountry} from '~/services/Country';
 
 export default function Home({componentId}) {
@@ -18,15 +19,27 @@ export default function Home({componentId}) {
     }
   };
 
-  return (
-    <FlatList
-      contentContainerStyle={{
-        backgroundColor: '#f7fcf9',
-      }}
-      showsVerticalScrollIndicator={false}
-      data={listCountry}
-      keyExtractor={item => item.code}
-      renderItem={({item}) => (
+  const renderCountryItem = item => {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          console.log('first');
+          Navigation.push(componentId, {
+            component: {
+              name: SCREEN_NAME.COUNTRY_DETAIL,
+              options: {
+                topBar: {
+                  title: {
+                    text: SCREEN_TITLE.COUNTRY_DETAIL,
+                  },
+                },
+              },
+              passProps: {
+                country: item,
+              },
+            },
+          });
+        }}>
         <View
           style={{
             marginBottom: 20,
@@ -77,7 +90,19 @@ export default function Home({componentId}) {
             </View>
           </View>
         </View>
-      )}
+      </TouchableOpacity>
+    );
+  };
+
+  return (
+    <FlatList
+      contentContainerStyle={{
+        backgroundColor: '#f7fcf9',
+      }}
+      showsVerticalScrollIndicator={false}
+      data={listCountry}
+      keyExtractor={item => item.code}
+      renderItem={({item}) => <>{renderCountryItem(item)}</>}
       ListHeaderComponent={() => (
         <View>
           <Text
@@ -87,24 +112,6 @@ export default function Home({componentId}) {
             }}>
             List of countries
           </Text>
-          {/* <Button
-            title="press"
-            onPress={() => {
-              console.log('first');
-              Navigation.push(componentId, {
-                component: {
-                  name: SCREEN_NAME.COUNTRY_DETAIL,
-                  options: {
-                    topBar: {
-                      title: {
-                        text: SCREEN_TITLE.COUNTRY_DETAIL,
-                      },
-                    },
-                  },
-                },
-              });
-            }}
-          /> */}
         </View>
       )}
     />
