@@ -6,11 +6,13 @@ const windowHeight = Dimensions.get('window').height;
 export const SCREEN_NAME = {
   HOME: 'HOME',
   COUNTRY_DETAIL: 'COUNTRY_DETAIL',
+  CONTINENT_DETAIL: 'CONTINENT_DETAIL',
 };
 
 export const SCREEN_TITLE = {
   HOME: 'Home',
   COUNTRY_DETAIL: 'Country Detail',
+  CONTINENT_DETAIL: 'Continent Detail',
 };
 
 export const THEME = {

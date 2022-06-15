@@ -1,9 +1,8 @@
 import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
-import {Navigation} from 'react-native-navigation';
-import {SCREEN_NAME, SCREEN_TITLE, THEME} from '~/Constants';
+import {Text, View} from 'react-native';
+import {THEME} from '~/Constants';
 
-export default function CountryDetail({country, componentId}) {
+export default function ContinentDetail({country}) {
   const renderInfo = (left, right) => {
     return (
       <View
@@ -44,27 +43,7 @@ export default function CountryDetail({country, componentId}) {
         }}>
         {renderInfo('Alpha2Code', country.code)}
         {renderInfo('callingCode', `+${country.phone}`)}
-        <TouchableOpacity
-          onPress={() => {
-            console.log('first');
-            Navigation.push(componentId, {
-              component: {
-                name: SCREEN_NAME.CONTINENT_DETAIL,
-                options: {
-                  topBar: {
-                    title: {
-                      text: SCREEN_TITLE.CONTINENT_DETAIL,
-                    },
-                  },
-                },
-                passProps: {
-                  country: country,
-                },
-              },
-            });
-          }}>
-          {renderInfo('continent', `+${country.continent.name}`)}
-        </TouchableOpacity>
+        {renderInfo('continent', `+${country.continent.name}`)}
       </View>
     </View>
   );
