@@ -1,13 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, {useEffect, useState} from 'react';
-import {
-  FlatList,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {FlatList, SafeAreaView, Text, View} from 'react-native';
 import {Navigation} from 'react-native-navigation';
+import CountryItem from '~/Components/CountryItem';
 import HomeButton from '~/Components/HomeButton';
 import InfoInlineText from '~/Components/InfoInlineText';
 import StatusBarContent from '~/Components/StatusBarContent';
@@ -51,81 +46,27 @@ export default function ContinentDetail({continentCode, componentId}) {
     }
   };
 
-  const renderCountryItem = item => {
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          Navigation.push(componentId, {
-            component: {
-              name: SCREEN_NAME.COUNTRY_DETAIL,
-              options: {
-                topBar: {
-                  title: {
-                    text: SCREEN_TITLE.COUNTRY_DETAIL,
-                  },
-                },
-              },
-              passProps: {
-                country: item,
+  const navigateToCountry = useCallback(
+    (country, countryCode) => {
+      Navigation.push(componentId, {
+        component: {
+          name: SCREEN_NAME.COUNTRY_DETAIL,
+          options: {
+            topBar: {
+              title: {
+                text: SCREEN_TITLE.COUNTRY_DETAIL,
               },
             },
-          });
-        }}>
-        <View
-          style={{
-            marginBottom: 20,
-            marginHorizontal: 20,
-            justifyContent: 'center',
-            flex: 1,
-            ...THEME.SHADOW,
-          }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              height: 50,
-              alignItems: 'center',
-              borderRadius: 5,
-              backgroundColor: theme.BACKGROUND,
-              flex: 1,
-            }}>
-            <View>
-              <Text
-                style={{
-                  fontSize: 45,
-                  marginHorizontal: 10,
-                  flex: 2,
-                }}>
-                {item.emoji}
-              </Text>
-            </View>
-            <View
-              style={{
-                justifyContent: 'space-between',
-                flex: 8,
-              }}>
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  paddingRight: 10,
-                  color: theme.TEXT,
-                }}
-                numberOfLines={1}>
-                {item.name}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: theme.TEXT,
-                }}>
-                {item.capital}
-              </Text>
-            </View>
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
-  };
+          },
+          passProps: {
+            countryCode,
+            country,
+          },
+        },
+      });
+    },
+    [componentId],
+  );
 
   return (
     <SafeAreaView
@@ -162,7 +103,13 @@ export default function ContinentDetail({continentCode, componentId}) {
             showsVerticalScrollIndicator={false}
             data={listCountry}
             keyExtractor={item => item.code}
-            renderItem={({item}) => <>{renderCountryItem(item)}</>}
+            renderItem={({item}) => (
+              <CountryItem
+                onPress={() => navigateToCountry(item)}
+                countryItem={item}
+                theme={theme}
+              />
+            )}
             ListHeaderComponent={() => (
               <View
                 style={{
