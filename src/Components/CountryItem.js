@@ -9,40 +9,44 @@ export default function CountryItem({
   emojiStyle,
   nameStyle,
   capitalStyle,
+  theme,
 }) {
   const renderCountryItem = item => {
     return (
-      <TouchableOpacity onPress={() => onPress && onPress(item)}>
+      <TouchableOpacity
+        onPress={() => {
+          onPress && onPress();
+        }}>
         <View
-          style={[
-            {
-              marginBottom: 20,
-              marginHorizontal: 20,
-              justifyContent: 'center',
-              flex: 1,
-              ...THEME.SHADOW,
-            },
-            itemContainerStyle,
-          ]}>
+          style={{
+            marginBottom: 20,
+            marginHorizontal: 20,
+            justifyContent: 'center',
+            flex: 1,
+            elevation: 10,
+            ...THEME.SHADOW,
+          }}>
           <View
             style={{
               flexDirection: 'row',
               height: 50,
               alignItems: 'center',
               borderRadius: 5,
-              backgroundColor: '#ffffff',
+              backgroundColor: theme.BACKGROUND,
               flex: 1,
             }}>
-            <View>
+            <View
+              style={{
+                height: 50,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
               <Text
-                style={[
-                  {
-                    fontSize: 45,
-                    marginHorizontal: 10,
-                    flex: 2,
-                  },
-                  emojiStyle,
-                ]}>
+                style={{
+                  fontSize: 35,
+                  marginHorizontal: 10,
+                  // flex: 2,
+                }}>
                 {item.emoji}
               </Text>
             </View>
@@ -52,24 +56,20 @@ export default function CountryItem({
                 flex: 8,
               }}>
               <Text
-                style={[
-                  {
-                    fontSize: 16,
-                    fontWeight: 'bold',
-                    paddingRight: 10,
-                  },
-                  nameStyle,
-                ]}
+                style={{
+                  fontSize: 16,
+                  fontWeight: 'bold',
+                  paddingRight: 10,
+                  color: theme.TEXT,
+                }}
                 numberOfLines={1}>
                 {item.name}
               </Text>
               <Text
-                style={[
-                  {
-                    fontSize: 16,
-                  },
-                  capitalStyle,
-                ]}>
+                style={{
+                  fontSize: 16,
+                  color: theme.TEXT,
+                }}>
                 {item.capital}
               </Text>
             </View>

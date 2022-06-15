@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import {Navigation} from 'react-native-navigation';
+import CountryItem from '~/Components/CountryItem';
 import StatusBarContent from '~/Components/StatusBarContent';
 import ThemeButton from '~/Components/ThemeButton';
 import {SCREEN_NAME, SCREEN_TITLE, THEME} from '~/Constants';
@@ -123,68 +124,6 @@ export default function Home({componentId}) {
     }
   };
 
-  const renderCountryItem = item => {
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          navigateToCountry(item);
-        }}>
-        <View
-          style={{
-            marginBottom: 20,
-            marginHorizontal: 20,
-            justifyContent: 'center',
-            flex: 1,
-            ...THEME.SHADOW,
-          }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              height: 50,
-              alignItems: 'center',
-              borderRadius: 5,
-              backgroundColor: theme.BACKGROUND,
-              flex: 1,
-            }}>
-            <View>
-              <Text
-                style={{
-                  fontSize: 45,
-                  marginHorizontal: 10,
-                  flex: 2,
-                }}>
-                {item.emoji}
-              </Text>
-            </View>
-            <View
-              style={{
-                justifyContent: 'space-between',
-                flex: 8,
-              }}>
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  paddingRight: 10,
-                  color: theme.TEXT,
-                }}
-                numberOfLines={1}>
-                {item.name}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: theme.TEXT,
-                }}>
-                {item.capital}
-              </Text>
-            </View>
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
   return (
     <SafeAreaView
       style={{
@@ -196,7 +135,13 @@ export default function Home({componentId}) {
         showsVerticalScrollIndicator={false}
         data={listCountry}
         keyExtractor={item => item.code}
-        renderItem={({item}) => <>{renderCountryItem(item)}</>}
+        renderItem={({item}) => (
+          <CountryItem
+            onPress={() => navigateToCountry(item, item.code)}
+            countryItem={item}
+            theme={theme}
+          />
+        )}
         ListHeaderComponent={() => (
           <View>
             <Text
@@ -204,6 +149,8 @@ export default function Home({componentId}) {
                 fontSize: 16,
                 fontWeight: 'bold',
                 color: theme.TEXT,
+                marginHorizontal: 20,
+                marginVertical: 20,
               }}>
               List of countries
             </Text>
