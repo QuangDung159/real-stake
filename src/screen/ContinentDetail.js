@@ -19,11 +19,25 @@ export default function ContinentDetail({continent, componentId}) {
     }
   };
 
+  const renderInfo = (left, right) => {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginHorizontal: 20,
+          marginBottom: 10,
+        }}>
+        <Text>{left}</Text>
+        <Text>{right}</Text>
+      </View>
+    );
+  };
+
   const renderCountryItem = item => {
     return (
       <TouchableOpacity
         onPress={() => {
-          console.log('first');
           Navigation.push(componentId, {
             component: {
               name: SCREEN_NAME.COUNTRY_DETAIL,
@@ -95,25 +109,47 @@ export default function ContinentDetail({continent, componentId}) {
   };
 
   return (
-    <FlatList
-      contentContainerStyle={{
+    <View
+      style={{
         backgroundColor: '#f7fcf9',
-      }}
-      showsVerticalScrollIndicator={false}
-      data={listCountry}
-      keyExtractor={item => item.code}
-      renderItem={({item}) => <>{renderCountryItem(item)}</>}
-      ListHeaderComponent={() => (
-        <View>
-          <Text
+      }}>
+      <View>
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            marginVertical: 20,
+          }}>
+          {continent.name}
+        </Text>
+      </View>
+      {renderInfo('code', continent.code)}
+      <FlatList
+        contentContainerStyle={{
+          paddingBottom: 80,
+        }}
+        showsVerticalScrollIndicator={false}
+        data={listCountry}
+        keyExtractor={item => item.code}
+        renderItem={({item}) => <>{renderCountryItem(item)}</>}
+        ListHeaderComponent={() => (
+          <View
             style={{
-              fontSize: 16,
-              fontWeight: 'bold',
+              marginHorizontal: 20,
+              marginBottom: 20,
             }}>
-            List of countries
-          </Text>
-        </View>
-      )}
-    />
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: 'bold',
+                paddingTop: 10,
+              }}>
+              List of countries
+            </Text>
+          </View>
+        )}
+      />
+    </View>
   );
 }
