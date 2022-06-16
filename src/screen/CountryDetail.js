@@ -3,6 +3,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {SafeAreaView, Text, TouchableOpacity, View} from 'react-native';
 import {Navigation} from 'react-native-navigation';
 import HomeButton from '~/Components/HomeButton';
+import InfoInlineText from '~/Components/InfoInlineText';
 import StatusBarContent from '~/Components/StatusBarContent';
 import ThemeButton from '~/Components/ThemeButton';
 import {SCREEN_NAME, THEME} from '~/Constants';
@@ -42,31 +43,6 @@ export default function CountryDetail({country, componentId, countryCode}) {
     setIsDark(JSON.parse(localTheme));
   };
 
-  const renderInfo = (left, right) => {
-    return (
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginHorizontal: 20,
-          marginBottom: 10,
-        }}>
-        <Text
-          style={{
-            color: theme.TEXT,
-          }}>
-          {left}
-        </Text>
-        <Text
-          style={{
-            color: theme.TEXT,
-          }}>
-          {right}
-        </Text>
-      </View>
-    );
-  };
-
   return (
     <SafeAreaView
       style={{
@@ -99,8 +75,16 @@ export default function CountryDetail({country, componentId, countryCode}) {
             style={{
               width: '100%',
             }}>
-            {renderInfo('Alpha2Code', countryDetail.code)}
-            {renderInfo('callingCode', `+${countryDetail.phone}`)}
+            <InfoInlineText
+              left={'Alpha2Code'}
+              right={countryDetail.code}
+              theme={theme}
+            />
+            <InfoInlineText
+              left={'callingCode'}
+              right={`+${countryDetail.phone}`}
+              theme={theme}
+            />
             <TouchableOpacity
               onPress={() => {
                 Navigation.push(componentId, {
@@ -112,7 +96,11 @@ export default function CountryDetail({country, componentId, countryCode}) {
                   },
                 });
               }}>
-              {renderInfo('continent', `+${countryDetail.continent.name}`)}
+              <InfoInlineText
+                left={'continent'}
+                right={`+${countryDetail.continent.name}`}
+                theme={theme}
+              />
             </TouchableOpacity>
           </View>
         </>
