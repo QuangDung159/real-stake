@@ -80,7 +80,15 @@ export default function ContinentDetail({continentCode, componentId}) {
       <HomeButton isDark={isDark} componentId={componentId} />
       {continentDetail && (
         <>
-          <View>
+          <View
+            style={{
+              backgroundColor: theme.BACKGROUND,
+              borderRadius: 10,
+              marginHorizontal: 20,
+              width: THEME.WIDTH - 40,
+              alignItems: 'center',
+              ...THEME.SHADOW,
+            }}>
             <Text
               style={{
                 fontSize: 20,
@@ -91,12 +99,15 @@ export default function ContinentDetail({continentCode, componentId}) {
               }}>
               {continentDetail.name}
             </Text>
+            <InfoInlineText
+              left={'Code'}
+              right={continentDetail.code}
+              theme={theme}
+              containerStyle={{
+                width: THEME.WIDTH - 80,
+              }}
+            />
           </View>
-          <InfoInlineText
-            left={'Code'}
-            right={continentDetail.code}
-            theme={theme}
-          />
           <ListCountry
             listCountry={listCountry}
             renderItem={({item}) => (

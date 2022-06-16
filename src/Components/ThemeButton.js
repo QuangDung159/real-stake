@@ -22,7 +22,6 @@ export default function ThemeButton({isDark, setIsDark}) {
         ...THEME.SHADOW,
       }}
       onPress={async () => {
-        console.log('isDark :>> ', isDark);
         setIsDark(!isDark);
       }}>
       <Image

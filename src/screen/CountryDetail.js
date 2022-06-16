@@ -49,13 +49,21 @@ export default function CountryDetail({country, componentId, countryCode}) {
         alignItems: 'center',
         width: THEME.WIDTH,
         flex: 1,
-        backgroundColor: theme.BACKGROUND,
+        backgroundColor: theme.SUB_BACKGROUND,
       }}>
       <StatusBarContent isDark={isDark} />
       <ThemeButton isDark={isDark} setIsDark={setIsDark} />
       <HomeButton isDark={isDark} componentId={componentId} />
       {countryDetail && (
-        <>
+        <View
+          style={{
+            backgroundColor: theme.BACKGROUND,
+            borderRadius: 10,
+            marginHorizontal: 20,
+            width: THEME.WIDTH - 40,
+            alignItems: 'center',
+            ...THEME.SHADOW,
+          }}>
           <Text
             style={{
               fontSize: 100,
@@ -68,6 +76,7 @@ export default function CountryDetail({country, componentId, countryCode}) {
               fontSize: 20,
               fontWeight: 'bold',
               color: theme.TEXT,
+              marginBottom: 20,
             }}>
             {countryDetail.name}
           </Text>
@@ -103,7 +112,7 @@ export default function CountryDetail({country, componentId, countryCode}) {
               />
             </TouchableOpacity>
           </View>
-        </>
+        </View>
       )}
     </SafeAreaView>
   );

@@ -34,7 +34,7 @@ export default function CountryItem({
               flexDirection: 'row',
               height: 50,
               alignItems: 'center',
-              borderRadius: 5,
+              borderRadius: 10,
               backgroundColor: theme.BACKGROUND,
               flex: 1,
             }}>
