@@ -121,6 +121,7 @@ export default function Home({componentId}) {
     <SafeAreaView
       style={{
         backgroundColor: theme.SUB_BACKGROUND,
+        flex: 1,
       }}>
       <StatusBarContent isDark={isDark} />
       <ThemeButton isDark={isDark} setIsDark={setIsDark} />
