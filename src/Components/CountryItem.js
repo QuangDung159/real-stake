@@ -5,7 +5,7 @@ import {THEME} from '~/Constants';
 export default function CountryItem({
   onPress,
   countryItem,
-  itemContainerStyle,
+  containerStyle,
   emojiStyle,
   nameStyle,
   capitalStyle,
@@ -18,14 +18,17 @@ export default function CountryItem({
           onPress && onPress();
         }}>
         <View
-          style={{
-            marginBottom: 20,
-            marginHorizontal: 20,
-            justifyContent: 'center',
-            flex: 1,
-            elevation: 10,
-            ...THEME.SHADOW,
-          }}>
+          style={[
+            {
+              marginBottom: 20,
+              marginHorizontal: 20,
+              justifyContent: 'center',
+              flex: 1,
+              elevation: 10,
+              ...THEME.SHADOW,
+            },
+            containerStyle,
+          ]}>
           <View
             style={{
               flexDirection: 'row',
@@ -42,11 +45,13 @@ export default function CountryItem({
                 alignItems: 'center',
               }}>
               <Text
-                style={{
-                  fontSize: 35,
-                  marginHorizontal: 10,
-                  // flex: 2,
-                }}>
+                style={[
+                  {
+                    fontSize: 35,
+                    marginHorizontal: 10,
+                  },
+                  emojiStyle,
+                ]}>
                 {item.emoji}
               </Text>
             </View>
@@ -56,20 +61,26 @@ export default function CountryItem({
                 flex: 8,
               }}>
               <Text
-                style={{
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  paddingRight: 10,
-                  color: theme.TEXT,
-                }}
+                style={[
+                  {
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                    paddingRight: 10,
+                    color: theme.TEXT,
+                  },
+                  nameStyle,
+                ]}
                 numberOfLines={1}>
                 {item.name}
               </Text>
               <Text
-                style={{
-                  fontSize: 16,
-                  color: theme.TEXT,
-                }}>
+                style={[
+                  {
+                    fontSize: 16,
+                    color: theme.TEXT,
+                  },
+                  capitalStyle,
+                ]}>
                 {item.capital}
               </Text>
             </View>

@@ -1,54 +1,24 @@
 import React from 'react';
 import {FlatList, Text, View} from 'react-native';
-import CountryItem from './CountryItem';
 
-export default function ListCountry({
-  listCountry,
-  onPressItem,
-  containerStyle,
-  title,
-  titleStyle,
-  titleContainerStyle,
-  itemContainerStyle,
-  emojiStyle,
-  nameStyle,
-  capitalStyle,
-}) {
+export default function ListCountry({listCountry, renderItem, theme, title}) {
   return (
     <FlatList
-      contentContainerStyle={[containerStyle]}
       showsVerticalScrollIndicator={false}
       data={listCountry}
       keyExtractor={item => item.code}
-      renderItem={({item}) => (
-        <CountryItem
-          onPress={() => onPressItem && onPressItem(item)}
-          countryItem={item}
-          itemContainerStyle={itemContainerStyle}
-          emojiStyle={emojiStyle}
-          nameStyle={nameStyle}
-          capitalStyle={capitalStyle}
-        />
-      )}
+      renderItem={({item}) => renderItem && renderItem({item})}
       ListHeaderComponent={() => (
-        <View
-          style={[
-            {
-              marginHorizontal: 20,
-              marginBottom: 20,
-            },
-            titleContainerStyle,
-          ]}>
+        <View>
           <Text
-            style={[
-              {
-                fontSize: 16,
-                fontWeight: 'bold',
-                paddingTop: 10,
-              },
-              titleStyle,
-            ]}>
-            {title}
+            style={{
+              fontSize: 16,
+              fontWeight: 'bold',
+              color: theme.TEXT,
+              marginHorizontal: 20,
+              marginVertical: 20,
+            }}>
+            {title || 'List of countries'}
           </Text>
         </View>
       )}

@@ -1,16 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useCallback, useEffect, useState} from 'react';
-import {
-  Alert,
-  FlatList,
-  Linking,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Alert, Linking, SafeAreaView} from 'react-native';
 import {Navigation} from 'react-native-navigation';
 import CountryItem from '~/Components/CountryItem';
+import ListCountry from '~/Components/ListCountry';
 import StatusBarContent from '~/Components/StatusBarContent';
 import ThemeButton from '~/Components/ThemeButton';
 import {SCREEN_NAME, SCREEN_TITLE, THEME} from '~/Constants';
@@ -131,10 +124,8 @@ export default function Home({componentId}) {
       }}>
       <StatusBarContent isDark={isDark} />
       <ThemeButton isDark={isDark} setIsDark={setIsDark} />
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        data={listCountry}
-        keyExtractor={item => item.code}
+      <ListCountry
+        listCountry={listCountry}
         renderItem={({item}) => (
           <CountryItem
             onPress={() => navigateToCountry(item, item.code)}
@@ -142,20 +133,7 @@ export default function Home({componentId}) {
             theme={theme}
           />
         )}
-        ListHeaderComponent={() => (
-          <View>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: 'bold',
-                color: theme.TEXT,
-                marginHorizontal: 20,
-                marginVertical: 20,
-              }}>
-              List of countries
-            </Text>
-          </View>
-        )}
+        theme={theme}
       />
     </SafeAreaView>
   );

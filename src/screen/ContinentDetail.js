@@ -1,10 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useCallback, useEffect, useState} from 'react';
-import {FlatList, SafeAreaView, Text, View} from 'react-native';
+import {SafeAreaView, Text, View} from 'react-native';
 import {Navigation} from 'react-native-navigation';
 import CountryItem from '~/Components/CountryItem';
 import HomeButton from '~/Components/HomeButton';
 import InfoInlineText from '~/Components/InfoInlineText';
+import ListCountry from '~/Components/ListCountry';
 import StatusBarContent from '~/Components/StatusBarContent';
 import ThemeButton from '~/Components/ThemeButton';
 import {SCREEN_NAME, SCREEN_TITLE, THEME} from '~/Constants';
@@ -96,37 +97,16 @@ export default function ContinentDetail({continentCode, componentId}) {
             right={continentDetail.code}
             theme={theme}
           />
-          <FlatList
-            contentContainerStyle={{
-              paddingBottom: 80,
-            }}
-            showsVerticalScrollIndicator={false}
-            data={listCountry}
-            keyExtractor={item => item.code}
+          <ListCountry
+            listCountry={listCountry}
             renderItem={({item}) => (
               <CountryItem
-                onPress={() => navigateToCountry(item)}
+                onPress={() => navigateToCountry(item, item.code)}
                 countryItem={item}
                 theme={theme}
               />
             )}
-            ListHeaderComponent={() => (
-              <View
-                style={{
-                  marginHorizontal: 20,
-                  marginBottom: 20,
-                }}>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontWeight: 'bold',
-                    paddingTop: 10,
-                    color: theme.TEXT,
-                  }}>
-                  List of countries
-                </Text>
-              </View>
-            )}
+            theme={theme}
           />
         </>
       )}
