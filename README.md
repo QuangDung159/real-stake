@@ -1,5 +1,4 @@
 # real-stake
-real-stake
 
 Run yarn
 
